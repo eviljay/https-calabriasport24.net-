@@ -1,0 +1,83 @@
+jQuery(document).ready(function($) {
+
+  	// Fly-Out Navigation
+
+	$(".fly-but-wrap").on('click', function(){
+		$("#fly-wrap").toggleClass("fly-menu");
+  		$("#wallpaper").toggleClass("fly-content");
+  		$("#nav-main-wrapper").toggleClass("main-nav-over");
+  		$("#main-wrapper").toggleClass("fly-content");
+  		$(".fly-but-wrap").toggleClass("fly-open");
+	});
+
+	// Fly-Out Dropdown Toggle
+	$('.menu-item-has-children a').click(function(event){
+	  event.stopPropagation();
+	  location.href = this.href;
+  	});
+
+	$('.menu-item-has-children').click(function(){
+    	  $(this).addClass('toggled');
+    	  if($('.menu-item-has-children').hasClass('toggled'))
+    	  {
+    	  $(this).children('ul').toggle();
+	  $('.fly-nav-menu').getNiceScroll().resize();
+	  }
+	  $(this).toggleClass('tog-minus');
+    	  return false;
+  	});
+
+	// Fly-Out Scroll
+	$(window).load(function(){
+	  $('.fly-nav-menu').niceScroll({cursorcolor:"#888",cursorwidth: 7,cursorborder: 0,zindex:999999});
+	});
+
+ 	// Search Toggle
+ 	$(".nav-search-but").on('click', function(){
+ 	  $(".search-fly-wrap").slideToggle();
+  	});
+
+
+	// Tabs
+
+	//When page loads...
+	$('.tabber-container').each(function() {
+		$(this).find(".tabber-content").hide(); //Hide all content
+		$(this).find("ul.tabs li:first").addClass("active").show(); //Activate first tab
+		$(this).find(".tabber-content:first").show(); //Show first tab content
+	});
+
+	//On Click Event
+	$("ul.tabs li").click(function(e) {
+		$(this).parents('.tabber-container').find("ul.tabs li").removeClass("active"); //Remove any "active" class
+		$(this).addClass("active"); //Add "active" class to selected tab
+		$(this).parents('.tabber-container').find(".tabber-content").hide(); //Hide all tab content
+
+		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+		$(this).parents('.tabber-container').find(activeTab).fadeIn(); //Fade in the active ID content
+
+		e.preventDefault();
+	});
+
+	$("ul.tabs li a").click(function(e) {
+		e.preventDefault();
+	})
+
+
+	// Ticker
+
+	var ticker = function()
+	{
+		setTimeout(function(){
+			$("ul.ticker-list li:first").animate( {marginTop: '-30px'}, 800, function()
+			{
+				$(this).detach().appendTo("ul.ticker-list").removeAttr("style");
+			});
+			ticker();
+		}, 5000);
+	};
+	ticker();
+
+
+
+});
